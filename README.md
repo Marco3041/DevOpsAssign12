@@ -26,3 +26,8 @@ cd ansible
 ansible-playbook -i inventory install-docker.yml
 ansible-playbook -i inventory swarm-init.yml
 ansible-playbook -i inventory deploy-stack.yml
+
+
+<img width="1413" height="852" alt="image" src="https://github.com/user-attachments/assets/e31cd053-70b2-4a15-8412-b51a219d7bc3" />
+<img width="1407" height="859" alt="image" src="https://github.com/user-attachments/assets/ab660e9a-1f2d-493a-acdf-1bcb09be8bac" />
+
