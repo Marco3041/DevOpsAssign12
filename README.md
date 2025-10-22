@@ -1,2 +1,17 @@
-# DevOpsAssign12
-DevOps Assignment - IT738
+# DevOps Assignment - IT738
+
+## Infrastructure
+
+Controller: 44.193.223.96  
+Manager: 34.230.229.232  
+Worker A: 13.218.252.195  
+Worker B: 50.19.133.201  
+
+---
+
+## Quick Start
+
+Bootstrap Everything:
+```bash
+chmod +x scripts/bootstrap.sh
+./scripts/bootstrap.sh
