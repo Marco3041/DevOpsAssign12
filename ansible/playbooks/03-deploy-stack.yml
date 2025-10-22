@@ -1,0 +1,14 @@
+---
+- name: Deploy Docker Stack
+  hosts: manager
+  become: yes
+  tasks:
+    - name: Copy docker-compose.yml to manager
+      copy:
+        src: ../../docker/docker-compose.yml
+        dest: /home/ubuntu/docker-compose.yml
+
+    - name: Deploy stack
+      shell: docker stack deploy -c /home/ubuntu/docker-compose.yml webapp
+      args:
+        chdir: /home/ubuntu
