@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+
+    environment {
+        BRANCH_NAME = 'IT738'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Checking out branch ${BRANCH_NAME}"
+                checkout([$class: 'GitSCM',
+                          branches: [[name: "*/${BRANCH_NAME}"]],
+                          userRemoteConfigs: [[url: 'https://github.com/Marco3041/DevOpsAssign12.git']]])
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir('terraform') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Ansible Deployment') {
+            steps {
+                dir('ansible') {
+                    sh 'ansible-playbook -i inventory.ini playbooks/01-install-docker.yml'
+                    sh 'ansible-playbook -i inventory.ini playbooks/02-init-swarm.yml'
+                    sh 'ansible-playbook -i inventory.ini playbooks/03-deploy-stack.yml'
+                }
+            }
+        }
+
+        stage('Docker Swarm Status') {
+            steps {
+                echo "Checking Docker Swarm status on manager..."
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@34.230.229.232 docker node ls'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
